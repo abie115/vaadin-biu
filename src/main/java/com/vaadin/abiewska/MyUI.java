@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.abiewska.view.LoginView;
 import com.vaadin.abiewska.view.MainView;
+import com.vaadin.abiewska.view.RegisterView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
@@ -25,7 +26,8 @@ public class MyUI extends UI {
 		Navigator navigator = new Navigator(this, this);
 		navigator.addView("login", LoginView.class); // http://localhost:8080/#!login
 		navigator.addView("main", MainView.class);
-		 navigator.navigateTo("login");
+		navigator.addView("register", RegisterView.class);
+		navigator.navigateTo("login");
 	}
 
 	/*
