@@ -1,11 +1,18 @@
 package com.vaadin.abiewska.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class User {
-	
-	private String login = null;
+	@Size(min = 3, max = 10)
+	@NotNull
+	private String login;
 
-	private String password = null;
+	@Size(min = 3, max = 10)
+	@NotNull
+	private String password;
 
 	public User() {
 		super();

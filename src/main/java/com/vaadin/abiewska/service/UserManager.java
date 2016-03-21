@@ -15,13 +15,13 @@ public class UserManager {
 		String query = "select * from user where login = '" + login
 				+ "' AND password = '" + password + "'";
 		PreparedStatement pstmt = DBConnection.con().prepareStatement(query);
-		ResultSet res = pstmt.executeQuery();
+		ResultSet rs = pstmt.executeQuery();
 		User user = null;
 		try {
-			if (res.next()) {
+			if (rs.next()) {
 				user = new User();
-				user.setLogin(res.getString("login"));
-				user.setPassword(res.getString("password"));
+				user.setLogin(rs.getString("login"));
+				user.setPassword(rs.getString("password"));
 				System.out.println("Poprawnie zalogowano.");
 
 				VaadinSession session = UI.getCurrent().getSession();
@@ -30,13 +30,39 @@ public class UserManager {
 			} else {
 				System.out.println("Zly login lub haslo.");
 			}
-			res.close();
+			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
 			System.out.println("Brak polaczenia z baza.");
 			e.printStackTrace();
 		}
 		return user;
+	}
 
+	public static boolean UserExist(String login) throws SQLException {
+		String query = "select * from user where login = '" + login + "'";
+		PreparedStatement pstmt = DBConnection.con().prepareStatement(query);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next()) {
+			System.out.println("User o takim loginie istnieje.");
+			rs.close();
+			pstmt.close();
+			return true;
+		} else {
+			System.out.println("User o takim loginie nie istnieje.");
+		}
+		rs.close();
+		pstmt.close();
+		return false;
+	}
+
+	public static void registerUser(String login, String password)
+			throws SQLException {
+		String insert = "insert into user (login, password) values ( ?, ? )";
+		PreparedStatement pstmt = DBConnection.con().prepareStatement(insert);
+		pstmt.setString(1, login);
+		pstmt.setString(2, password);
+		pstmt.executeUpdate();
+		pstmt.close();
 	}
 }
