@@ -23,8 +23,15 @@ public class RegisterView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		this.setUp();
 
+		this.addComponent(new MenuPanel());
+		User user = (User) UI.getCurrent().getSession()
+				.getAttribute("currentUser");
+		if (user == null) {
+			this.setUp();
+		} else {
+			UI.getCurrent().getNavigator().navigateTo("main");
+		}
 	}
 
 	public void setUp() {
@@ -59,9 +66,9 @@ public class RegisterView extends VerticalLayout implements View {
 		binder.bind(txtLogin, "login");
 		binder.bind(pfPassword, "password");
 
-		txtLogin.setRequired(true);
-		pfPassword.setRequired(true);
-		pfPassword2.setRequired(true);
+		// txtLogin.setRequired(true);
+		// pfPassword.setRequired(true);
+		// pfPassword2.setRequired(true);
 
 		txtLogin.addValidator(new BeanValidator(User.class, "login"));
 		pfPassword.addValidator(new BeanValidator(User.class, "password"));

@@ -1,17 +1,12 @@
 package com.vaadin.abiewska.domain;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class User {
-	@Size(min = 3, max = 10)
-	@NotNull
+	@Size(min = 3, max = 10, message = "Login od 3 do 10 znaków")
 	private String login;
 
-	@Size(min = 3, max = 10)
-	@NotNull
+	@Size(min = 3, max = 10, message = "Hasło od 3 do 10 znaków")
 	private String password;
 
 	public User() {

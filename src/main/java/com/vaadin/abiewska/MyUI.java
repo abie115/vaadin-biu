@@ -2,10 +2,12 @@ package com.vaadin.abiewska;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.abiewska.domain.User;
 import com.vaadin.abiewska.view.LoginView;
 import com.vaadin.abiewska.view.MainView;
 import com.vaadin.abiewska.view.RegisterView;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
@@ -18,16 +20,19 @@ import com.vaadin.ui.UI;
  */
 @Theme("mytheme")
 @Widgetset("com.vaadin.abiewska.MyAppWidgetset")
+@Title("App")
 public class MyUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
-		
+
 		Navigator navigator = new Navigator(this, this);
-		navigator.addView("login", LoginView.class); // http://localhost:8080/#!login
 		navigator.addView("main", MainView.class);
+		navigator.addView("login", LoginView.class); // http://localhost:8080/#!login
 		navigator.addView("register", RegisterView.class);
+
 		navigator.navigateTo("login");
+	
 	}
 
 	/*
