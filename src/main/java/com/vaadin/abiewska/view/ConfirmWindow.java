@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.vaadin.abiewska.domain.Course;
 import com.vaadin.abiewska.domain.Enrollment;
 import com.vaadin.abiewska.domain.User;
+import com.vaadin.abiewska.service.CourseManager;
 import com.vaadin.abiewska.service.EnrollmentManager;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;

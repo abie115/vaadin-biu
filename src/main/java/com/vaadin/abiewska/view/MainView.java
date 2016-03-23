@@ -1,6 +1,5 @@
 package com.vaadin.abiewska.view;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.vaadin.abiewska.domain.Course;
@@ -18,7 +17,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -65,6 +63,7 @@ public class MainView extends VerticalLayout implements View {
 
 		Table coursesTable = new Table("Kursy", courses);
 		coursesTable.setColumnHeader("id", "Id");
+		coursesTable.setColumnHeader("login", "Login");
 		coursesTable.setColumnHeader("name", "Nazwa");
 		coursesTable.setColumnHeader("location", "Lokalizacja");
 		coursesTable.setColumnHeader("description", "Szczegóły");
@@ -75,7 +74,7 @@ public class MainView extends VerticalLayout implements View {
 		coursesTable.setSizeFull();
 		coursesTable.setSelectable(true);
 		coursesTable.setColumnWidth("description", 200);
-		coursesTable.setVisibleColumns("id", "name", "location", "description",
+		coursesTable.setVisibleColumns("id", "login","name", "location", "description",
 				"email", "dateBegin", "dateEnd");
 
 		// coursesTable.setEditable(true);
@@ -91,26 +90,14 @@ public class MainView extends VerticalLayout implements View {
 		});
 
 		List<Course> listCourse = null;
-		try {
-			listCourse = CourseManager.getAllCourse();
-		} catch (SQLException ex) {
-			Notification.show("Brak połączenia z bazą.",
-					Notification.Type.ERROR_MESSAGE);
-		}
-
+		listCourse = CourseManager.getAllCourse();
 		courses.addAll(listCourse);
 		coursesTable.setPageLength(coursesTable.size());
 
 		btnSearch.addClickListener(e -> {
 			String name = txtCourse.getValue();
 			List<Course> list = null;
-			try {
-				list = CourseManager.getCourseByName(name);
-			} catch (SQLException ex) {
-				Notification.show("Brak połączenia z bazą.",
-						Notification.Type.ERROR_MESSAGE);
-			}
-
+			list = CourseManager.getCourseByName(name);
 			courses.removeAllItems();
 			courses.addAll(list);
 			coursesTable.setPageLength(coursesTable.size());
@@ -140,11 +127,18 @@ public class MainView extends VerticalLayout implements View {
 		btnAddCourse.addClickListener(e -> {
 			AddCourseWindow addCourseWindow = new AddCourseWindow();
 			UI.getCurrent().addWindow(addCourseWindow);
+			addCourseWindow.addCloseListener(e1->{
+				System.out.println("odswiezamy tabeleczke");
+				List<Course> list = null;
+				list = CourseManager.getAllCourse();
+				courses.removeAllItems();
+				courses.addAll(list);
+				coursesTable.setPageLength(coursesTable.size());
+			});		
 		});
 
 		addComponent(lblLogin);
 		hLayout.addComponents(labelCourse, txtCourse, btnSearch);
-		hLayout.setMargin(true);
 		hLayout.setSpacing(true);
 		addComponent(hLayout);
 		setComponentAlignment(hLayout, Alignment.MIDDLE_CENTER);

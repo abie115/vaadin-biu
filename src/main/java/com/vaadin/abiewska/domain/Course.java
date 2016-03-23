@@ -12,7 +12,7 @@ public class Course {
 	@Size(min = 3, max = 30, message = "Nazwa  od 3 do 30 znaków")
 	private String name;
 
-	//@Size(min = 3, max = 300, message = "Opis nie może być pusty")
+	@Size(min = 3, max = 300, message = "Opis od 3 do 300 znaków")
 	private String description;
 
 	@Size(min = 3, max = 30, message = "Lokalizacja  od 3 do 30 znaków")
@@ -24,6 +24,8 @@ public class Course {
 	private Date dateBegin;
 	@NotNull(message = "Data nie może być pusta")
 	private Date dateEnd;
+	
+	private String login;
 
 	public Course(Integer id, String name, String description, String location, Date dateBegin, Date dateEnd) {
 		super();
@@ -94,6 +96,14 @@ public class Course {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 }

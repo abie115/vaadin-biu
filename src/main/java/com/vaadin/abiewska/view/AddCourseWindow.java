@@ -3,15 +3,20 @@ package com.vaadin.abiewska.view;
 import java.util.Date;
 
 import com.vaadin.abiewska.domain.Course;
+import com.vaadin.abiewska.domain.User;
+import com.vaadin.abiewska.service.CourseManager;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -99,12 +104,45 @@ public class AddCourseWindow extends Window {
 		txtName.setRequiredError("Nazwa jest wymagana");
 		txtLocation.setRequired(true);
 		txtLocation.setRequiredError("Lokalizacja jest wymagana");
+		txtDecription.setRequired(true);
+		txtDecription.setRequiredError("Lokalizacja jest wymagana");
 		txtEmail.setRequired(true);
 		txtEmail.setRequiredError("Email jest wymagany");
 		dateBegin.setRequired(true);
 		dateBegin.setRequiredError("Data jest wymagana");
 		dateEnd.setRequired(true);
 		dateEnd.setRequiredError("Data jest wymagana");
+
+		btnAdd.addClickListener(e -> {
+			try {
+
+				binder.commit();
+				User user = (User) UI.getCurrent().getSession()
+						.getAttribute("currentUser");
+				Course course = new Course();
+				course.setLogin(user.getLogin());
+				course.setName(txtName.getValue());
+				course.setDescription(txtDecription.getValue());
+				course.setLocation(txtLocation.getValue());
+				course.setEmail(txtEmail.getValue());
+				course.setDateBegin(dateBegin.getValue());
+				course.setDateEnd(dateEnd.getValue());
+				System.out.println("test daty "
+						+ dateBegin.getValue().toString());
+
+				CourseManager.createCourse(course);
+				AddCourseWindow.this.close();
+				Notification.show("Dodałeś nowy kurs.",
+						Notification.Type.HUMANIZED_MESSAGE);
+
+			} catch (CommitException ex) {
+				Notification.show("Wprowadzono nieprawidłowe dane",
+						Notification.Type.WARNING_MESSAGE);
+				System.out.println("Nieprawidlowe dane");
+				ex.printStackTrace();
+			}
+
+		});
 
 		content.setMargin(true);
 		content.setSpacing(true);

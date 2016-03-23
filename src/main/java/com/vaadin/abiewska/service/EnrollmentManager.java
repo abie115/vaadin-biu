@@ -27,7 +27,6 @@ public class EnrollmentManager {
 			System.out.println("Ten User nie zapisał się na ten kurs.");
 		}
 		return false;
-
 	}
 
 	public static boolean addEnroll(Enrollment enroll) throws SQLException {
