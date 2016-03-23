@@ -2,7 +2,7 @@ package com.vaadin.abiewska;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.vaadin.abiewska.domain.User;
+import com.vaadin.abiewska.view.EnrollCourseView;
 import com.vaadin.abiewska.view.LoginView;
 import com.vaadin.abiewska.view.MainView;
 import com.vaadin.abiewska.view.RegisterView;
@@ -30,6 +30,7 @@ public class MyUI extends UI {
 		navigator.addView("main", MainView.class);
 		navigator.addView("login", LoginView.class); // http://localhost:8080/#!login
 		navigator.addView("register", RegisterView.class);
+		navigator.addView("enrollcourse", EnrollCourseView.class);
 
 		navigator.navigateTo("login");
 	

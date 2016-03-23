@@ -14,6 +14,7 @@ public class MenuPanel extends HorizontalLayout {
 	public MenuPanel() {
 		
 		Button btnMain = new Button("Strona Główna");
+		Button btnEnrollCourse = new Button("Moje kursy");
 		Button btnLogin = new Button("Logowanie");
 		Button btnRegister = new Button("Rejestracja");
 		Button btnLogout = new Button("Wyloguj");
@@ -24,7 +25,7 @@ public class MenuPanel extends HorizontalLayout {
 		if (user == null) {
 			this.addComponents(btnMain, btnLogin, btnRegister);
 		} else {
-			this.addComponents(btnMain, btnLogout);
+			this.addComponents(btnMain, btnEnrollCourse, btnLogout);
 		}
 
 		btnLogin.addClickListener(e -> {
@@ -41,6 +42,10 @@ public class MenuPanel extends HorizontalLayout {
 
 		btnMain.addClickListener(e -> {
 			UI.getCurrent().getNavigator().navigateTo("main");
+		});
+		
+		btnEnrollCourse.addClickListener(e -> {
+			UI.getCurrent().getNavigator().navigateTo("enrollcourse");
 		});
 	}
 
