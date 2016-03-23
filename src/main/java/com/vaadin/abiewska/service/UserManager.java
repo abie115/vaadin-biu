@@ -26,7 +26,7 @@ public class UserManager {
 
 				VaadinSession session = UI.getCurrent().getSession();
 				session.setAttribute("currentUser", user);
-				
+
 				UI.getCurrent().getNavigator().navigateTo("main");
 			} else {
 				System.out.println("Zly login lub haslo.");
@@ -39,10 +39,12 @@ public class UserManager {
 		}
 		return user;
 	}
-	public static void LogoutUser(){
+
+	public static void LogoutUser() {
 		UI.getCurrent().getPage().setLocation("/vaadin-biu");
 		UI.getCurrent().getSession().close();
 	}
+
 	public static boolean UserExist(String login) throws SQLException {
 		String query = "select * from user where login = '" + login + "'";
 		PreparedStatement pstmt = DBConnection.con().prepareStatement(query);
@@ -55,8 +57,7 @@ public class UserManager {
 		} else {
 			System.out.println("User o takim loginie nie istnieje.");
 		}
-		rs.close();
-		pstmt.close();
+
 		return false;
 	}
 

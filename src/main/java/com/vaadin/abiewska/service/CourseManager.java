@@ -33,8 +33,9 @@ public class CourseManager {
 				course.setLocation(rs.getString(3));
 				course.setDescription(rs.getString(4));
 				course.setEmail(rs.getString(5));
-				course.setDateBegin(rs.getDate(6));
-				course.setDateEnd(rs.getDate(7));
+				course.setDateBegin(rs.getTimestamp(6));
+				course.setDateEnd(rs.getTimestamp(7));
+			
 				listCourse.add(course);
 			}
 			rs.close();
@@ -47,7 +48,7 @@ public class CourseManager {
 
 	}
 	
-	public static List<Course> allCourse() throws SQLException{
+	public static List<Course> getAllCourse() throws SQLException{
 		String query = "select * from course";
 		PreparedStatement pstmt = DBConnection.con().prepareStatement(query);
 		ResultSet rs = pstmt.executeQuery();
@@ -67,6 +68,7 @@ public class CourseManager {
 				course.setEmail(rs.getString(5));
 				course.setDateBegin(rs.getDate(6));
 				course.setDateEnd(rs.getDate(7));
+				System.out.println(rs.getTimestamp(7));
 				listCourse.add(course);
 			}
 			rs.close();
