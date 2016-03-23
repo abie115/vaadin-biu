@@ -77,6 +77,12 @@ public class RegisterView extends VerticalLayout implements View {
 		txtLogin.setImmediate(true);
 		pfPassword.setImmediate(true);
 		pfPassword2.setImmediate(true);
+		txtLogin.setRequired(true);
+		txtLogin.setRequiredError("Login jest wymagany");
+		pfPassword.setRequired(true);
+		pfPassword.setRequiredError("Hasło jest wymagane");
+		pfPassword2.setRequired(true);
+		pfPassword2.setRequiredError("Powtórzenie hasła jest wymagane");
 
 		btnRegister
 				.addClickListener(e -> {

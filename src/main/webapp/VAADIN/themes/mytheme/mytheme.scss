@@ -35,4 +35,8 @@
 @mixin mytheme {
   @include valo;
   // Insert your own theme rules here
+
+.v-table-cell-wrapper {
+white-space: normal;
+}
 }

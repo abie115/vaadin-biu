@@ -15,6 +15,7 @@ public class MenuPanel extends HorizontalLayout {
 		
 		Button btnMain = new Button("Strona Główna");
 		Button btnEnrollCourse = new Button("Moje kursy");
+		Button btnCreateCourse = new Button("Stworzone kursy");
 		Button btnLogin = new Button("Logowanie");
 		Button btnRegister = new Button("Rejestracja");
 		Button btnLogout = new Button("Wyloguj");

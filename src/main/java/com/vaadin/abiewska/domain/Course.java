@@ -2,14 +2,27 @@ package com.vaadin.abiewska.domain;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Course {
 
 	private Integer id;
+
+	@Size(min = 3, max = 30, message = "Nazwa  od 3 do 30 znaków")
 	private String name;
+
+	//@Size(min = 3, max = 300, message = "Opis nie może być pusty")
 	private String description;
+
+	@Size(min = 3, max = 30, message = "Lokalizacja  od 3 do 30 znaków")
 	private String location;
+
+	@Size(min = 3, max = 30, message = "Email od 3 do 30 znaków")
 	private String email;
+	@NotNull(message = "Data nie może być pusta")
 	private Date dateBegin;
+	@NotNull(message = "Data nie może być pusta")
 	private Date dateEnd;
 
 	public Course(Integer id, String name, String description, String location, Date dateBegin, Date dateEnd) {
@@ -34,6 +47,7 @@ public class Course {
 		this.id = id;
 	}
 
+	
 	public String getName() {
 		return name;
 	}

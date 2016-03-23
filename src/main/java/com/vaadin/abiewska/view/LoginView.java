@@ -8,6 +8,7 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.BeanValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -66,8 +67,10 @@ public class LoginView extends VerticalLayout implements View {
 		binder.bind(txtLogin, "login");
 		binder.bind(pfPassword, "password");
 
-		// txtLogin.setRequired(true);
-		// pfPassword.setRequired(true);
+		txtLogin.setRequired(true);
+		txtLogin.setRequiredError("Login jest wymagany");
+		pfPassword.setRequired(true);
+		pfPassword.setRequiredError("Hasło jest wymagane");
 
 		txtLogin.addValidator(new BeanValidator(User.class, "login"));
 		pfPassword.addValidator(new BeanValidator(User.class, "password"));

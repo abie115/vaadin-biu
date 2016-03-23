@@ -3,13 +3,11 @@ package com.vaadin.abiewska.view;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.vaadin.abiewska.MyUI;
 import com.vaadin.abiewska.domain.Course;
 import com.vaadin.abiewska.domain.User;
 import com.vaadin.abiewska.service.CourseManager;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -40,30 +38,29 @@ public class MainView extends VerticalLayout implements View {
 		setMargin(true);
 		setSpacing(true);
 
-		final HorizontalLayout hLayout = new HorizontalLayout();
+		HorizontalLayout hLayout = new HorizontalLayout();
+		HorizontalLayout hButton = new HorizontalLayout();
 
 		Label lblLogin = new Label();
 		Button btnSearch = new Button("Wyszukaj", FontAwesome.SEARCH);
 		TextField txtCourse = new TextField();
 		Label labelCourse = new Label("Nazwa kursu:");
 		Button btnSelect = new Button("Zapisz się na kurs");
-		
+		Button btnAddCourse = new Button("Dodaj kurs");
+
 		User user = (User) UI.getCurrent().getSession()
 				.getAttribute("currentUser");
 
 		if (user != null) {
 			lblLogin = new Label("Witaj, " + user.getLogin() + " ");
 
-			setMargin(true);
-			setSpacing(true);
-
 		} else {
 			UI.getCurrent().getNavigator().navigateTo("login");
-		}	
+		}
 
 		BeanContainer<Integer, Course> courses = new BeanContainer<Integer, Course>(
 				Course.class);
-		
+
 		courses.setBeanIdProperty("id");
 
 		Table coursesTable = new Table("Kursy", courses);
@@ -81,6 +78,8 @@ public class MainView extends VerticalLayout implements View {
 		coursesTable.setVisibleColumns("id", "name", "location", "description",
 				"email", "dateBegin", "dateEnd");
 
+		// coursesTable.setEditable(true);
+
 		txtCourse.addFocusListener(new FocusListener() {
 			private static final long serialVersionUID = -6733373447805994139L;
 
@@ -91,7 +90,6 @@ public class MainView extends VerticalLayout implements View {
 			}
 		});
 
-		
 		List<Course> listCourse = null;
 		try {
 			listCourse = CourseManager.getAllCourse();
@@ -102,7 +100,6 @@ public class MainView extends VerticalLayout implements View {
 
 		courses.addAll(listCourse);
 		coursesTable.setPageLength(coursesTable.size());
-
 
 		btnSearch.addClickListener(e -> {
 			String name = txtCourse.getValue();
@@ -117,7 +114,6 @@ public class MainView extends VerticalLayout implements View {
 			courses.removeAllItems();
 			courses.addAll(list);
 			coursesTable.setPageLength(coursesTable.size());
-			
 
 		});
 
@@ -140,14 +136,22 @@ public class MainView extends VerticalLayout implements View {
 			}
 
 		});
-		
+
+		btnAddCourse.addClickListener(e -> {
+			AddCourseWindow addCourseWindow = new AddCourseWindow();
+			UI.getCurrent().addWindow(addCourseWindow);
+		});
+
 		addComponent(lblLogin);
 		hLayout.addComponents(labelCourse, txtCourse, btnSearch);
 		hLayout.setMargin(true);
 		hLayout.setSpacing(true);
 		addComponent(hLayout);
 		setComponentAlignment(hLayout, Alignment.MIDDLE_CENTER);
-		addComponents(coursesTable,btnSelect);
+		addComponents(coursesTable);
+		addComponent(hButton);
+		hButton.addComponents(btnSelect, btnAddCourse);
+		hButton.setSpacing(true);
 
 	}
 
