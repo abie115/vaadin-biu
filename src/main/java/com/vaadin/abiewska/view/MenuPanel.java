@@ -5,20 +5,40 @@ import com.vaadin.abiewska.service.UserManager;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.UI;
 
 public class MenuPanel extends HorizontalLayout {
 
 	public MenuPanel() {
-		
+
 		Button btnMain = new Button("Strona Główna");
-		Button btnEnrollCourse = new Button("Moje kursy");
-		Button btnCreateCourse = new Button("Stworzone kursy");
 		Button btnLogin = new Button("Logowanie");
 		Button btnRegister = new Button("Rejestracja");
 		Button btnLogout = new Button("Wyloguj");
+		MenuBar menubar = new MenuBar();
+
+		MenuItem course = menubar.addItem("Kursy", null);
+		course.addItem("Uczestnicze", new MenuBar.Command() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo("enrollcourse");
+
+			}
+
+		});
+		course.addItem("Dodane", new MenuBar.Command() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo("createcourse");
+
+			}
+
+		});
 
 		User user = (User) UI.getCurrent().getSession()
 				.getAttribute("currentUser");
@@ -26,7 +46,7 @@ public class MenuPanel extends HorizontalLayout {
 		if (user == null) {
 			this.addComponents(btnMain, btnLogin, btnRegister);
 		} else {
-			this.addComponents(btnMain, btnEnrollCourse, btnLogout);
+			this.addComponents(btnMain, menubar, btnLogout);
 		}
 
 		btnLogin.addClickListener(e -> {
@@ -44,10 +64,7 @@ public class MenuPanel extends HorizontalLayout {
 		btnMain.addClickListener(e -> {
 			UI.getCurrent().getNavigator().navigateTo("main");
 		});
-		
-		btnEnrollCourse.addClickListener(e -> {
-			UI.getCurrent().getNavigator().navigateTo("enrollcourse");
-		});
+
 	}
 
 }

@@ -6,6 +6,7 @@ import com.vaadin.abiewska.view.EnrollCourseView;
 import com.vaadin.abiewska.view.LoginView;
 import com.vaadin.abiewska.view.MainView;
 import com.vaadin.abiewska.view.RegisterView;
+import com.vaadin.abiewska.view.CreateCourseView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -31,28 +32,11 @@ public class MyUI extends UI {
 		navigator.addView("login", LoginView.class); // http://localhost:8080/#!login
 		navigator.addView("register", RegisterView.class);
 		navigator.addView("enrollcourse", EnrollCourseView.class);
+		navigator.addView("createcourse", CreateCourseView.class);
 
 		navigator.navigateTo("login");
 	
 	}
-
-	/*
-	 * public void setUp() { final VerticalLayout layout = new VerticalLayout();
-	 * 
-	 * final TextField name = new TextField();
-	 * name.setCaption("Type your name here:");
-	 * 
-	 * Button button = new Button("Click Me"); button.addClickListener(e -> {
-	 * layout.addComponent(new Label("Thanks " + name.getValue() +
-	 * ", it works!")); });
-	 * 
-	 * layout.addComponents(name, button); layout.setMargin(true);
-	 * layout.setSpacing(true);
-	 * 
-	 * setContent(layout);
-	 * 
-	 * }
-	 */
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)

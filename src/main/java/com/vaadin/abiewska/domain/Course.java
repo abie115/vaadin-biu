@@ -3,6 +3,7 @@ package com.vaadin.abiewska.domain;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Course {
@@ -18,16 +19,18 @@ public class Course {
 	@Size(min = 3, max = 30, message = "Lokalizacja  od 3 do 30 znaków")
 	private String location;
 
-	@Size(min = 3, max = 30, message = "Email od 3 do 30 znaków")
+	@NotNull(message = "Email jest wymagany")
+	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Email musi byc poprawny")
 	private String email;
 	@NotNull(message = "Data nie może być pusta")
 	private Date dateBegin;
 	@NotNull(message = "Data nie może być pusta")
 	private Date dateEnd;
-	
+
 	private String login;
 
-	public Course(Integer id, String name, String description, String location, Date dateBegin, Date dateEnd) {
+	public Course(Integer id, String name, String description, String location,
+			Date dateBegin, Date dateEnd) {
 		super();
 		this.setId(id);
 		this.setName(name);
@@ -49,7 +52,6 @@ public class Course {
 		this.id = id;
 	}
 
-	
 	public String getName() {
 		return name;
 	}
