@@ -97,4 +97,33 @@ public class EnrollmentManager {
 		pstmt.executeUpdate();
 		pstmt.close();
 	}
+
+	public static List<User> getAllUserEnrollByCourse(Course course) {
+		try {
+			String query = "select enrollment.login "
+					+ "from enrollment join course on enrollment.id_course=course.id where course.id="
+					+ course.getId() + "";
+			PreparedStatement pstmt = DBConnection.con()
+					.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs == null)
+				return null;
+
+			List<User> listUser = new ArrayList<User>();
+			User user = null;
+
+			while (rs.next()) {
+				user = new User();
+				user.setLogin(rs.getString(1));
+				listUser.add(user);
+			}
+			rs.close();
+			pstmt.close();
+			return listUser;
+		} catch (SQLException e) {
+			System.out.println("Brak polaczenia z baza.");
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -34,9 +34,11 @@ public class CreateCourseView extends VerticalLayout implements View {
 		Button btnAddCourse = new Button("Dodaj kurs");
 		Button btnEditCourse = new Button("Edytuj kurs");
 		Button btnRemoveCourse = new Button("Usuń");
+		Button btnListUser = new Button("Lista zapisanych");
 
 		HorizontalLayout hButton = new HorizontalLayout();
-		hButton.addComponents(btnAddCourse, btnRemoveCourse, btnEditCourse);
+		hButton.addComponents(btnAddCourse, btnRemoveCourse, btnEditCourse,
+				btnListUser);
 		hButton.setSpacing(true);
 
 		BeanContainer<Integer, Course> courses = new BeanContainer<Integer, Course>(
@@ -56,7 +58,7 @@ public class CreateCourseView extends VerticalLayout implements View {
 		coursesTable.setSizeFull();
 		coursesTable.setSelectable(true);
 		coursesTable.setColumnWidth("description", 200);
-		coursesTable.setVisibleColumns("id", "name", "location", "description",
+		coursesTable.setVisibleColumns("name", "location", "description",
 				"email", "dateBegin", "dateEnd");
 		coursesTable.setImmediate(true);
 
@@ -86,6 +88,13 @@ public class CreateCourseView extends VerticalLayout implements View {
 			editCourse(courses, user, coursesTable);
 
 		});
+		
+		btnListUser
+				.addClickListener(e -> {
+					UserListByCourseWindow userListByCourseWindow = new UserListByCourseWindow(
+							courseSelect);
+					UI.getCurrent().addWindow(userListByCourseWindow);
+				});
 
 		coursesTable.addItemClickListener(e -> {
 			BeanItem<Course> courseItem = courses.getItem(e.getItemId());
@@ -104,8 +113,7 @@ public class CreateCourseView extends VerticalLayout implements View {
 			} else {
 				CourseManager.removeCourse(courseSelect);
 				courses.removeItem(idSelect);
-				Notification
-				.show("Usunąłeś kurs.",
+				Notification.show("Usunąłeś kurs.",
 						Notification.Type.HUMANIZED_MESSAGE);
 				coursesTable.setPageLength(coursesTable.size());
 			}
@@ -128,4 +136,3 @@ public class CreateCourseView extends VerticalLayout implements View {
 		});
 	}
 }
-

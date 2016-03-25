@@ -51,7 +51,7 @@ public class EnrollCourseView extends VerticalLayout implements View {
 		enrollTable.setSizeFull();
 		enrollTable.setSelectable(true);
 		enrollTable.setColumnWidth("description", 200);
-		enrollTable.setVisibleColumns("id", "name", "location", "description",
+		enrollTable.setVisibleColumns( "name", "location", "description",
 				"email", "dateBegin", "dateEnd");
 		enrollTable.setImmediate(true);
 

@@ -74,7 +74,7 @@ public class MainView extends VerticalLayout implements View {
 		coursesTable.setSizeFull();
 		coursesTable.setSelectable(true);
 		coursesTable.setColumnWidth("description", 200);
-		coursesTable.setVisibleColumns("id", "login","name", "location", "description",
+		coursesTable.setVisibleColumns("login","name", "location", "description",
 				"email", "dateBegin", "dateEnd");
 
 		// coursesTable.setEditable(true);
