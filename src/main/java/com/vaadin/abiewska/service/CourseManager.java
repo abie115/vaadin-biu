@@ -111,7 +111,7 @@ public class CourseManager {
 
 	public static List<Course> getCoursesByLogin(User user) {
 		try {
-			String query = "select id, login, name, ctaegory, location, description, email, datebegin, dateend "
+			String query = "select id, login, name, category, location, description, email, datebegin, dateend "
 					+ "from course where login='" + user.getLogin() + "'";
 			PreparedStatement pstmt = DBConnection.con()
 					.prepareStatement(query);
@@ -162,13 +162,13 @@ public class CourseManager {
 
 	public static void editCourse(Course course) {
 		try {
-			String update = "update course set name=?, category=? description=?, location=?, email=?, datebegin=?, dateend=? where id=?";
+			String update = "update course set name=?, category=?, description=?, location=?, email=?, datebegin=?, dateend=? where id=?";
 			PreparedStatement pstmt = DBConnection.con().prepareStatement(
 					update);
 			pstmt.setString(1, course.getName());
-			pstmt.setString(2, course.getLocation());
-			pstmt.setString(3, course.getCategory());
-			pstmt.setString(4, course.getDescription());
+			pstmt.setString(2, course.getCategory());
+			pstmt.setString(3, course.getDescription());
+			pstmt.setString(4, course.getLocation());
 			pstmt.setString(5, course.getEmail());
 			pstmt.setTimestamp(6, new java.sql.Timestamp(course.getDateBegin()
 					.getTime()));

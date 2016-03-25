@@ -85,7 +85,6 @@ public class CreateCourseView extends VerticalLayout implements View {
 		});
 
 		btnEditCourse.addClickListener(e -> {
-			System.out.println(courseSelect);
 			editCourse(courses, user, coursesTable);
 
 		});

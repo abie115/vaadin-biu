@@ -1,5 +1,7 @@
 package com.vaadin.abiewska.view;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import com.vaadin.abiewska.domain.Course;
@@ -46,11 +48,12 @@ public class MainView extends VerticalLayout implements View {
 		Label labelCourse = new Label("Nazwa kursu:");
 		Button btnSelect = new Button("Zapisz się na kurs");
 		Button btnAddCourse = new Button("Dodaj kurs");
-		
-		ComboBox comboCategory = new ComboBox();
+		String password = "123456";
+
+		/*ComboBox comboCategory = new ComboBox();
 		comboCategory.setCaption("Kategoria");
 		comboCategory.addItem("Kurs");
-		comboCategory.addItem("Wyklad");
+		comboCategory.addItem("Wyklad");*/
 
 		User user = (User) UI.getCurrent().getSession()
 				.getAttribute("currentUser");

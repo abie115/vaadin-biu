@@ -43,7 +43,7 @@ public class EditCourseWindow extends Window {
 		TextArea txtDecription = new TextArea("Opis: ");
 		TextField txtLocation = new TextField("Lokalizacja: ");
 		TextField txtEmail = new TextField("Kontakt: ");
-		Button btnAdd = new Button("Dodaj");
+		Button btnAdd = new Button("Zapisz");
 
 		DateField dateBegin = new DateField();
 		content.addComponent(dateBegin);
@@ -92,6 +92,7 @@ public class EditCourseWindow extends Window {
 		binder.setBuffered(true);
 
 		binder.bind(txtName, "name");
+		binder.bind(comboCategory, "category");
 		binder.bind(txtDecription, "description");
 		binder.bind(txtLocation, "location");
 		binder.bind(txtEmail, "email");
