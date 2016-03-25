@@ -10,6 +10,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
@@ -25,10 +26,11 @@ public class EditCourseWindow extends Window {
 
 		Course editCourse = new Course();
 		BeanItem<Course> courseItem = new BeanItem<Course>(editCourse);
-		System.out.println(course.getEmail());
+
 		editCourse.setId(course.getId());
 		editCourse.setLogin(course.getLogin());
 		editCourse.setName(course.getName());
+		editCourse.setCategory(course.getCategory());
 		editCourse.setDescription(course.getDescription());
 		editCourse.setLocation(course.getLocation());
 		editCourse.setEmail(course.getEmail());
@@ -63,6 +65,11 @@ public class EditCourseWindow extends Window {
 		dateEnd.setInvalidAllowed(false);
 		dateEnd.setValue(new Date());
 
+		ComboBox comboCategory = new ComboBox();
+		comboCategory.setCaption("Kategoria");
+		comboCategory.addItem("Kurs");
+		comboCategory.addItem("Wyklad");
+
 		Panel panel = new Panel("Edycja kursu");
 		panel.setSizeUndefined();
 		content.addComponent(panel);
@@ -70,6 +77,7 @@ public class EditCourseWindow extends Window {
 		FormLayout formLogin = new FormLayout();
 		formLogin.addStyleName("edit-form");
 		formLogin.addComponent(txtName);
+		formLogin.addComponent(comboCategory);
 		formLogin.addComponent(txtDecription);
 		formLogin.addComponent(txtLocation);
 		formLogin.addComponent(txtEmail);
@@ -91,6 +99,7 @@ public class EditCourseWindow extends Window {
 		binder.bind(dateEnd, "dateEnd");
 
 		txtName.addValidator(new BeanValidator(Course.class, "name"));
+		comboCategory.addValidator(new BeanValidator(Course.class, "category"));
 		txtDecription.addValidator(new BeanValidator(Course.class,
 				"description"));
 		txtLocation.addValidator(new BeanValidator(Course.class, "location"));
@@ -99,12 +108,15 @@ public class EditCourseWindow extends Window {
 		dateEnd.addValidator(new BeanValidator(Course.class, "dateEnd"));
 
 		txtName.setImmediate(true);
+		comboCategory.setImmediate(true);
 		txtDecription.setImmediate(true);
 		txtLocation.setImmediate(true);
 		txtEmail.setImmediate(true);
 
 		txtName.setRequired(true);
 		txtName.setRequiredError("Nazwa jest wymagana");
+		comboCategory.setRequired(true);
+		comboCategory.setRequiredError("Kategoria jest wymagana");
 		txtLocation.setRequired(true);
 		txtLocation.setRequiredError("Lokalizacja jest wymagana");
 		txtDecription.setRequired(true);
@@ -118,7 +130,6 @@ public class EditCourseWindow extends Window {
 
 		btnAdd.addClickListener(e -> {
 			try {
-
 				binder.commit();
 				CourseManager.editCourse(editCourse);
 				EditCourseWindow.this.close();

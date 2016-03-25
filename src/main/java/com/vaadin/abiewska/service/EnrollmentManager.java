@@ -48,7 +48,7 @@ public class EnrollmentManager {
 	}
 
 	public static List<Course> getAllEnroll(User user) throws SQLException {
-		String query = "select enrollment.id, enrollment.id_course, course.name, course.location, course.description, course.email, "
+		String query = "select enrollment.id, enrollment.id_course, course.name, course.category, course.location, course.description, course.email, "
 				+ "course.datebegin, course.dateend "
 				+ "from enrollment join course on enrollment.id_course=course.id where enrollment.login='"
 				+ user.getLogin() + "'";
@@ -67,16 +67,12 @@ public class EnrollmentManager {
 				course = new Course();
 				course.setId(rs.getInt(2));
 				course.setName(rs.getString(3));
-				course.setLocation(rs.getString(4));
-				course.setDescription(rs.getString(5));
-				course.setEmail(rs.getString(6));
-				course.setDateBegin(rs.getTimestamp(7));
-				course.setDateEnd(rs.getTimestamp(8));
-
-				/*
-				 * enroll.setId(rs.getInt(1));
-				 * enroll.setId_course(rs.getInt(2)); enroll.setCourse(course);
-				 */
+				course.setCategory(rs.getString(4));
+				course.setLocation(rs.getString(5));
+				course.setDescription(rs.getString(6));
+				course.setEmail(rs.getString(7));
+				course.setDateBegin(rs.getTimestamp(8));
+				course.setDateEnd(rs.getTimestamp(9));
 				listEnroll.add(course);
 			}
 			rs.close();

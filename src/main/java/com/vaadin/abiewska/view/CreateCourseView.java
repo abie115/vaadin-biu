@@ -49,6 +49,7 @@ public class CreateCourseView extends VerticalLayout implements View {
 		Table coursesTable = new Table("Kursy, które dodałeś", courses);
 		coursesTable.setColumnHeader("id", "Id");
 		coursesTable.setColumnHeader("name", "Nazwa");
+		coursesTable.setColumnHeader("category", "Kategoria");
 		coursesTable.setColumnHeader("location", "Lokalizacja");
 		coursesTable.setColumnHeader("description", "Szczegóły");
 		coursesTable.setColumnHeader("email", "E-mail");
@@ -58,8 +59,8 @@ public class CreateCourseView extends VerticalLayout implements View {
 		coursesTable.setSizeFull();
 		coursesTable.setSelectable(true);
 		coursesTable.setColumnWidth("description", 200);
-		coursesTable.setVisibleColumns("name", "location", "description",
-				"email", "dateBegin", "dateEnd");
+		coursesTable.setVisibleColumns("login", "name", "category", "location",
+				"description", "email", "dateBegin", "dateEnd");
 		coursesTable.setImmediate(true);
 
 		List<Course> listCourse = null;

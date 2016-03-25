@@ -42,6 +42,7 @@ public class EnrollCourseView extends VerticalLayout implements View {
 		Table enrollTable = new Table("Kursy, na które się zapisałeś", enroll);
 		enrollTable.setColumnHeader("id", "Id");
 		enrollTable.setColumnHeader("name", "Nazwa");
+		enrollTable.setColumnHeader("category", "Kategoria");
 		enrollTable.setColumnHeader("location", "Lokalizacja");
 		enrollTable.setColumnHeader("description", "Szczegóły");
 		enrollTable.setColumnHeader("email", "E-mail");
@@ -51,8 +52,8 @@ public class EnrollCourseView extends VerticalLayout implements View {
 		enrollTable.setSizeFull();
 		enrollTable.setSelectable(true);
 		enrollTable.setColumnWidth("description", 200);
-		enrollTable.setVisibleColumns( "name", "location", "description",
-				"email", "dateBegin", "dateEnd");
+		enrollTable.setVisibleColumns("login", "name", "category", "location",
+				"description", "email", "dateBegin", "dateEnd");
 		enrollTable.setImmediate(true);
 
 		List<Course> listEnroll = null;

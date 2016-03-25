@@ -15,6 +15,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -45,6 +46,11 @@ public class MainView extends VerticalLayout implements View {
 		Label labelCourse = new Label("Nazwa kursu:");
 		Button btnSelect = new Button("Zapisz się na kurs");
 		Button btnAddCourse = new Button("Dodaj kurs");
+		
+		ComboBox comboCategory = new ComboBox();
+		comboCategory.setCaption("Kategoria");
+		comboCategory.addItem("Kurs");
+		comboCategory.addItem("Wyklad");
 
 		User user = (User) UI.getCurrent().getSession()
 				.getAttribute("currentUser");
@@ -65,6 +71,7 @@ public class MainView extends VerticalLayout implements View {
 		coursesTable.setColumnHeader("id", "Id");
 		coursesTable.setColumnHeader("login", "Login");
 		coursesTable.setColumnHeader("name", "Nazwa");
+		coursesTable.setColumnHeader("category", "Kategoria");
 		coursesTable.setColumnHeader("location", "Lokalizacja");
 		coursesTable.setColumnHeader("description", "Szczegóły");
 		coursesTable.setColumnHeader("email", "E-mail");
@@ -74,10 +81,9 @@ public class MainView extends VerticalLayout implements View {
 		coursesTable.setSizeFull();
 		coursesTable.setSelectable(true);
 		coursesTable.setColumnWidth("description", 200);
-		coursesTable.setVisibleColumns("login","name", "location", "description",
-				"email", "dateBegin", "dateEnd");
+		coursesTable.setVisibleColumns("login", "name", "category", "location",
+				"description", "email", "dateBegin", "dateEnd");
 
-		// coursesTable.setEditable(true);
 
 		txtCourse.addFocusListener(new FocusListener() {
 			private static final long serialVersionUID = -6733373447805994139L;
@@ -127,14 +133,14 @@ public class MainView extends VerticalLayout implements View {
 		btnAddCourse.addClickListener(e -> {
 			AddCourseWindow addCourseWindow = new AddCourseWindow();
 			UI.getCurrent().addWindow(addCourseWindow);
-			addCourseWindow.addCloseListener(e1->{
+			addCourseWindow.addCloseListener(e1 -> {
 				System.out.println("odswiezamy tabeleczke");
 				List<Course> list = null;
 				list = CourseManager.getAllCourse();
 				courses.removeAllItems();
 				courses.addAll(list);
 				coursesTable.setPageLength(coursesTable.size());
-			});		
+			});
 		});
 
 		addComponent(lblLogin);

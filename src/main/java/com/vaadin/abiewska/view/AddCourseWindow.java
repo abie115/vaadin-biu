@@ -11,6 +11,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
@@ -54,6 +55,12 @@ public class AddCourseWindow extends Window {
 		dateEnd.setDateOutOfRangeMessage("Data musi być w przyszłości");
 		dateEnd.setInvalidAllowed(false);
 		dateEnd.setValue(new Date());
+		
+		ComboBox comboCategory = new ComboBox();
+		comboCategory.setCaption("Kategoria");
+		comboCategory.addItem("Kurs");
+		comboCategory.addItem("Wyklad");
+		
 
 		txtName.setNullRepresentation("");
 		txtDecription.setNullRepresentation("");
@@ -67,6 +74,7 @@ public class AddCourseWindow extends Window {
 		FormLayout formLogin = new FormLayout();
 		formLogin.addStyleName("add-form");
 		formLogin.addComponent(txtName);
+		formLogin.addComponent(comboCategory);
 		formLogin.addComponent(txtDecription);
 		formLogin.addComponent(txtLocation);
 		formLogin.addComponent(txtEmail);
@@ -81,6 +89,7 @@ public class AddCourseWindow extends Window {
 		binder.setBuffered(true);
 
 		binder.bind(txtName, "name");
+		binder.bind(comboCategory, "category");
 		binder.bind(txtDecription, "description");
 		binder.bind(txtLocation, "location");
 		binder.bind(txtEmail, "email");
@@ -88,6 +97,7 @@ public class AddCourseWindow extends Window {
 		binder.bind(dateEnd, "dateEnd");
 
 		txtName.addValidator(new BeanValidator(Course.class, "name"));
+		comboCategory.addValidator(new BeanValidator(Course.class, "category"));
 		txtDecription.addValidator(new BeanValidator(Course.class,
 				"description"));
 		txtLocation.addValidator(new BeanValidator(Course.class, "location"));
@@ -96,12 +106,15 @@ public class AddCourseWindow extends Window {
 		dateEnd.addValidator(new BeanValidator(Course.class, "dateEnd"));
 
 		txtName.setImmediate(true);
+		comboCategory.setImmediate(true);
 		txtDecription.setImmediate(true);
 		txtLocation.setImmediate(true);
 		txtEmail.setImmediate(true);
 
 		txtName.setRequired(true);
 		txtName.setRequiredError("Nazwa jest wymagana");
+		comboCategory.setRequired(true);
+		comboCategory.setRequiredError("Kategoria jest wymagana");
 		txtLocation.setRequired(true);
 		txtLocation.setRequiredError("Lokalizacja jest wymagana");
 		txtDecription.setRequired(true);
@@ -122,6 +135,7 @@ public class AddCourseWindow extends Window {
 				Course course = new Course();
 				course.setLogin(user.getLogin());
 				course.setName(txtName.getValue());
+				course.setCategory(comboCategory.getValue().toString());
 				course.setDescription(txtDecription.getValue());
 				course.setLocation(txtLocation.getValue());
 				course.setEmail(txtEmail.getValue());

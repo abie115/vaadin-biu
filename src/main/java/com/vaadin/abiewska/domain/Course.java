@@ -12,6 +12,9 @@ public class Course {
 
 	@Size(min = 3, max = 30, message = "Nazwa  od 3 do 30 znaków")
 	private String name;
+	
+	@Size(min = 3, max = 30, message = "Kategoria  od 3 do 30 znaków")
+	private String category;
 
 	@Size(min = 3, max = 300, message = "Opis od 3 do 300 znaków")
 	private String description;
@@ -29,11 +32,12 @@ public class Course {
 
 	private String login;
 
-	public Course(Integer id, String name, String description, String location,
+	public Course(Integer id, String name, String category, String description, String location,
 			Date dateBegin, Date dateEnd) {
 		super();
 		this.setId(id);
 		this.setName(name);
+		this.setCategory(category);
 		this.setDescription(description);
 		this.setLocation(location);
 		this.setDateBegin(dateBegin);
@@ -106,6 +110,14 @@ public class Course {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }
