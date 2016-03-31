@@ -21,6 +21,8 @@ import com.vaadin.ui.VerticalLayout;
 
 public class RegisterView extends VerticalLayout implements View {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 
@@ -66,17 +68,11 @@ public class RegisterView extends VerticalLayout implements View {
 		binder.bind(txtLogin, "login");
 		binder.bind(pfPassword, "password");
 
-		// txtLogin.setRequired(true);
-		// pfPassword.setRequired(true);
-		// pfPassword2.setRequired(true);
 
 		txtLogin.addValidator(new BeanValidator(User.class, "login"));
 		pfPassword.addValidator(new BeanValidator(User.class, "password"));
 		pfPassword2.addValidator(new BeanValidator(User.class, "password"));
 
-		txtLogin.setImmediate(true);
-		pfPassword.setImmediate(true);
-		pfPassword2.setImmediate(true);
 		txtLogin.setRequired(true);
 		txtLogin.setRequiredError("Login jest wymagany");
 		pfPassword.setRequired(true);

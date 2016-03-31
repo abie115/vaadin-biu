@@ -5,8 +5,8 @@ import java.util.List;
 import com.vaadin.abiewska.domain.Course;
 import com.vaadin.abiewska.domain.User;
 import com.vaadin.abiewska.service.CourseManager;
-import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -17,13 +17,24 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class CreateCourseView extends VerticalLayout implements View {
+
+	private static final long serialVersionUID = 1L;
+
 	private Course courseSelect = null;
 	private Object idSelect = null;
+	private User user = null;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		this.addComponent(new MenuPanel());
-		this.setUp();
+
+		user = (User) UI.getCurrent().getSession().getAttribute("currentUser");
+
+		if (user == null) {
+			UI.getCurrent().getNavigator().navigateTo("login");
+		} else {
+			this.addComponent(new MenuPanel());
+			this.setUp();
+		}
 
 	}
 
@@ -37,14 +48,13 @@ public class CreateCourseView extends VerticalLayout implements View {
 		Button btnListUser = new Button("Lista zapisanych");
 
 		HorizontalLayout hButton = new HorizontalLayout();
+
 		hButton.addComponents(btnAddCourse, btnRemoveCourse, btnEditCourse,
 				btnListUser);
 		hButton.setSpacing(true);
 
-		BeanContainer<Integer, Course> courses = new BeanContainer<Integer, Course>(
+		BeanItemContainer<Course> courses = new BeanItemContainer<Course>(
 				Course.class);
-
-		courses.setBeanIdProperty("id");
 
 		Table coursesTable = new Table("Kursy, które dodałeś", courses);
 		coursesTable.setColumnHeader("id", "Id");
@@ -64,8 +74,6 @@ public class CreateCourseView extends VerticalLayout implements View {
 		coursesTable.setImmediate(true);
 
 		List<Course> listCourse = null;
-		User user = (User) UI.getCurrent().getSession()
-				.getAttribute("currentUser");
 
 		listCourse = CourseManager.getCoursesByLogin(user);
 
@@ -85,10 +93,10 @@ public class CreateCourseView extends VerticalLayout implements View {
 		});
 
 		btnEditCourse.addClickListener(e -> {
-			editCourse(courses, user, coursesTable);
+			editCourse(courses, user, coursesTable, courseSelect, "EDIT");
 
 		});
-		
+
 		btnListUser
 				.addClickListener(e -> {
 					UserListByCourseWindow userListByCourseWindow = new UserListByCourseWindow(
@@ -101,7 +109,7 @@ public class CreateCourseView extends VerticalLayout implements View {
 			idSelect = e.getItemId();
 			courseSelect = courseItem.getBean();
 			if (e.isDoubleClick()) {
-				editCourse(courses, user, coursesTable);
+				editCourse(courses, user, coursesTable, courseSelect, "EDIT");
 			}
 
 		});
@@ -123,9 +131,10 @@ public class CreateCourseView extends VerticalLayout implements View {
 		addComponents(coursesTable, hButton);
 	}
 
-	public void editCourse(BeanContainer<Integer, Course> courses, User user,
-			Table coursesTable) {
-		EditCourseWindow editCourseWindow = new EditCourseWindow(courseSelect);
+	public void editCourse(BeanItemContainer<Course> courses, User user,
+			Table coursesTable, Course courseSelect, String action) {
+		EditCourseWindow editCourseWindow = new EditCourseWindow(courseSelect,
+				action);
 		UI.getCurrent().addWindow(editCourseWindow);
 		editCourseWindow.addCloseListener(e1 -> {
 			List<Course> list = null;

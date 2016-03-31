@@ -10,39 +10,33 @@ public class Course {
 
 	private Integer id;
 
+	@NotNull(message = "Nazwa jest wymagana")
 	@Size(min = 3, max = 30, message = "Nazwa  od 3 do 30 znaków")
 	private String name;
-	
+
+	@NotNull(message = "Kategoria jest wymagana")
 	@Size(min = 3, max = 30, message = "Kategoria  od 3 do 30 znaków")
 	private String category;
 
+	@NotNull(message = "Opis jest wymagany")
 	@Size(min = 3, max = 300, message = "Opis od 3 do 300 znaków")
 	private String description;
 
+	@NotNull(message = "Lokalizacja jest wymagana")
 	@Size(min = 3, max = 30, message = "Lokalizacja  od 3 do 30 znaków")
 	private String location;
 
 	@NotNull(message = "Email jest wymagany")
-	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Email musi byc poprawny")
+	@Pattern(regexp = ".+@.+\\.[a-z]+", message = "Email musi być poprawny")
 	private String email;
-	@NotNull(message = "Data nie może być pusta")
+
+	@NotNull(message = "Data jest wymagana")
 	private Date dateBegin;
-	@NotNull(message = "Data nie może być pusta")
+
+	@NotNull(message = "Data jest wymagana")
 	private Date dateEnd;
 
 	private String login;
-
-	public Course(Integer id, String name, String category, String description, String location,
-			Date dateBegin, Date dateEnd) {
-		super();
-		this.setId(id);
-		this.setName(name);
-		this.setCategory(category);
-		this.setDescription(description);
-		this.setLocation(location);
-		this.setDateBegin(dateBegin);
-		this.setDateEnd(dateEnd);
-	}
 
 	public Course() {
 

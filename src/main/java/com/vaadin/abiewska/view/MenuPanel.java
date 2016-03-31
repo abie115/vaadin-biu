@@ -10,6 +10,8 @@ import com.vaadin.ui.UI;
 
 public class MenuPanel extends HorizontalLayout {
 
+	private static final long serialVersionUID = 1L;
+
 	public MenuPanel() {
 
 		Button btnMain = new Button("Strona Główna");
@@ -19,6 +21,7 @@ public class MenuPanel extends HorizontalLayout {
 		MenuBar menubar = new MenuBar();
 
 		MenuItem course = menubar.addItem("Kursy", null);
+		
 		course.addItem("Uczestnicze", new MenuBar.Command() {
 			private static final long serialVersionUID = 1L;
 

@@ -23,12 +23,14 @@ import com.vaadin.ui.Window;
 
 public class AddCourseWindow extends Window {
 
+	private static final long serialVersionUID = 1L;
+
 	public AddCourseWindow() {
 		center();
 
 		BeanItem<Course> courseItem = new BeanItem<Course>(new Course());
 
-		final VerticalLayout content = new VerticalLayout();
+		VerticalLayout content = new VerticalLayout();
 
 		TextField txtName = new TextField("Nazwa: ");
 		TextField txtDecription = new TextField("Opis: ");
@@ -44,7 +46,7 @@ public class AddCourseWindow extends Window {
 		dateBegin.setRangeStart(new Date());
 		dateBegin.setDateOutOfRangeMessage("Data musi być w przyszłości");
 		dateBegin.setInvalidAllowed(false);
-		dateBegin.setValue(new Date());
+		//dateBegin.setValue(new Date());
 
 		DateField dateEnd = new DateField();
 		content.addComponent(dateEnd);
@@ -54,7 +56,7 @@ public class AddCourseWindow extends Window {
 		dateEnd.setRangeStart(new Date());
 		dateEnd.setDateOutOfRangeMessage("Data musi być w przyszłości");
 		dateEnd.setInvalidAllowed(false);
-		dateEnd.setValue(new Date());
+		//dateEnd.setValue(new Date());
 		
 		ComboBox comboCategory = new ComboBox();
 		comboCategory.setCaption("Kategoria");
@@ -141,8 +143,6 @@ public class AddCourseWindow extends Window {
 				course.setEmail(txtEmail.getValue());
 				course.setDateBegin(dateBegin.getValue());
 				course.setDateEnd(dateEnd.getValue());
-				System.out.println("test daty "
-						+ dateBegin.getValue().toString());
 
 				CourseManager.createCourse(course);
 				AddCourseWindow.this.close();

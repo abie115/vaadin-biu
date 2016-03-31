@@ -16,10 +16,12 @@ public class CourseManager {
 
 	public static CourseManager search = null;
 
-	public static List<Course> getCourseByName(String name) {
+	public static List<Course> getCourseByNameCategory(String name,
+			String category) {
 		try {
+			
 			String query = "select * from course where name like '%" + name
-					+ "%'";
+					+ "%' AND category like '%" + category + "%'";
 			PreparedStatement pstmt = DBConnection.con()
 					.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();

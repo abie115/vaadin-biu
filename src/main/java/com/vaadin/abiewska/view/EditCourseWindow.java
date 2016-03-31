@@ -21,9 +21,17 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class EditCourseWindow extends Window {
-	public EditCourseWindow(Course course) {
+
+	private static final long serialVersionUID = 1L;
+
+	public void runEditCourseWindow(Course course) {
+
+	}
+
+	public EditCourseWindow(Course course, String action) {
 		center();
 
+		VerticalLayout content = new VerticalLayout();
 		Course editCourse = new Course();
 		BeanItem<Course> courseItem = new BeanItem<Course>(editCourse);
 
@@ -37,23 +45,16 @@ public class EditCourseWindow extends Window {
 		editCourse.setDateBegin(course.getDateBegin());
 		editCourse.setDateEnd(course.getDateEnd());
 
-		final VerticalLayout content = new VerticalLayout();
-
 		TextField txtName = new TextField("Nazwa: ");
 		TextArea txtDecription = new TextArea("Opis: ");
 		TextField txtLocation = new TextField("Lokalizacja: ");
 		TextField txtEmail = new TextField("Kontakt: ");
 		Button btnAdd = new Button("Zapisz");
-
 		DateField dateBegin = new DateField();
 		content.addComponent(dateBegin);
 		dateBegin.setCaption("Data rozpoczęcia:");
 		dateBegin.setDateFormat("yyyy-MM-dd HH:mm");
 		dateBegin.setResolution(Resolution.MINUTE);
-		dateBegin.setRangeStart(new Date());
-		dateBegin.setDateOutOfRangeMessage("Data musi być w przyszłości");
-		dateBegin.setInvalidAllowed(false);
-		dateBegin.setValue(new Date());
 
 		DateField dateEnd = new DateField();
 		content.addComponent(dateEnd);
@@ -69,8 +70,10 @@ public class EditCourseWindow extends Window {
 		comboCategory.setCaption("Kategoria");
 		comboCategory.addItem("Kurs");
 		comboCategory.addItem("Wyklad");
-
-		Panel panel = new Panel("Edycja kursu");
+		comboCategory.setNullSelectionAllowed(false);
+		comboCategory.setValue("Kurs");
+		
+		Panel panel = new Panel();
 		panel.setSizeUndefined();
 		content.addComponent(panel);
 
@@ -83,7 +86,6 @@ public class EditCourseWindow extends Window {
 		formLogin.addComponent(txtEmail);
 		formLogin.addComponent(dateBegin);
 		formLogin.addComponent(dateEnd);
-		formLogin.addComponent(btnAdd);
 		formLogin.setMargin(true);
 		formLogin.setSpacing(true);
 		panel.setContent(formLogin);
@@ -128,6 +130,20 @@ public class EditCourseWindow extends Window {
 		dateBegin.setRequiredError("Data jest wymagana");
 		dateEnd.setRequired(true);
 		dateEnd.setRequiredError("Data jest wymagana");
+
+		dateBegin.setReadOnly(true);
+		if (action.equals("SHOW")) {
+			panel.setCaption("Kurs");
+			txtName.setReadOnly(true);
+			comboCategory.setReadOnly(true);
+			txtLocation.setReadOnly(true);
+			txtDecription.setReadOnly(true);
+			txtEmail.setReadOnly(true);
+			dateEnd.setReadOnly(true);
+		} else {
+			panel.setCaption("Edycja kursu");
+			formLogin.addComponent(btnAdd);
+		}
 
 		btnAdd.addClickListener(e -> {
 			try {

@@ -4,12 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.vaadin.abiewska.domain.Course;
-import com.vaadin.abiewska.domain.Enrollment;
 import com.vaadin.abiewska.domain.User;
-import com.vaadin.abiewska.service.CourseManager;
 import com.vaadin.abiewska.service.EnrollmentManager;
-import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -20,12 +18,21 @@ import com.vaadin.ui.VerticalLayout;
 
 public class EnrollCourseView extends VerticalLayout implements View {
 
+	private static final long serialVersionUID = 1L;
 	private Course courseSelect = null;
+	private User user = null;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		this.addComponent(new MenuPanel());
-		this.setUp();
+
+		user = (User) UI.getCurrent().getSession().getAttribute("currentUser");
+
+		if (user == null) {
+			UI.getCurrent().getNavigator().navigateTo("login");
+		} else {
+			this.addComponent(new MenuPanel());
+			this.setUp();
+		}
 	}
 
 	public void setUp() {
@@ -34,10 +41,8 @@ public class EnrollCourseView extends VerticalLayout implements View {
 		setSpacing(true);
 		Button btnRemove = new Button("Wypisz");
 
-		BeanContainer<Integer, Course> enroll = new BeanContainer<Integer, Course>(
+		BeanItemContainer<Course> enroll = new BeanItemContainer<Course>(
 				Course.class);
-
-		enroll.setBeanIdProperty("id");
 
 		Table enrollTable = new Table("Kursy, na które się zapisałeś", enroll);
 		enrollTable.setColumnHeader("id", "Id");
@@ -52,27 +57,32 @@ public class EnrollCourseView extends VerticalLayout implements View {
 		enrollTable.setSizeFull();
 		enrollTable.setSelectable(true);
 		enrollTable.setColumnWidth("description", 200);
-		enrollTable.setVisibleColumns("login", "name", "category", "location",
+		enrollTable.setVisibleColumns("name", "category", "location",
 				"description", "email", "dateBegin", "dateEnd");
 		enrollTable.setImmediate(true);
 
 		List<Course> listEnroll = null;
-		User user = (User) UI.getCurrent().getSession()
-				.getAttribute("currentUser");
+
 		try {
+
 			listEnroll = EnrollmentManager.getAllEnroll(user);
+
 		} catch (SQLException ex) {
+
 			Notification.show("Brak połączenia z bazą.",
 					Notification.Type.ERROR_MESSAGE);
+
 		}
+
 		enroll.addAll(listEnroll);
+
 		enrollTable.setPageLength(enrollTable.size());
 
 		enrollTable.addItemClickListener(e -> {
 
 			BeanItem<Course> courseItem = enroll.getItem(e.getItemId());
 			courseSelect = courseItem.getBean();
-			System.out.println("Zaznaczone do wypisanie"
+			System.out.println("Zaznaczone do wypisania"
 					+ e.getItem().toString());
 
 		});

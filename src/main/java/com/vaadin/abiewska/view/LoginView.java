@@ -8,7 +8,6 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.BeanValidator;
-import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -21,6 +20,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class LoginView extends VerticalLayout implements View {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -47,7 +48,7 @@ public class LoginView extends VerticalLayout implements View {
 		pfPassword.setNullRepresentation("");
 
 		Panel panel = new Panel("Logowanie");
-		panel.setSizeUndefined();// dopasowuje do zawartosci
+		panel.setSizeUndefined();
 		this.addComponent(panel);
 
 		FormLayout formLogin = new FormLayout();
@@ -75,11 +76,9 @@ public class LoginView extends VerticalLayout implements View {
 		txtLogin.addValidator(new BeanValidator(User.class, "login"));
 		pfPassword.addValidator(new BeanValidator(User.class, "password"));
 
-		txtLogin.setImmediate(true);
-		pfPassword.setImmediate(true);
-
 		btnLogin.addClickListener(e -> {
 			try {
+				
 				binder.commit();
 				String login = (String) binder.getField("login").getValue();
 				String password = (String) binder.getField("password")

@@ -16,24 +16,23 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
-/**
- *
- */
 @Theme("mytheme")
 @Widgetset("com.vaadin.abiewska.MyAppWidgetset")
 @Title("App")
 public class MyUI extends UI {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
 
 		Navigator navigator = new Navigator(this, this);
 		navigator.addView("main", MainView.class);
-		navigator.addView("login", LoginView.class); // http://localhost:8080/#!login
 		navigator.addView("register", RegisterView.class);
 		navigator.addView("enrollcourse", EnrollCourseView.class);
 		navigator.addView("createcourse", CreateCourseView.class);
-
+		navigator.addView("login", LoginView.class);
+		
 		navigator.navigateTo("login");
 	
 	}
@@ -41,5 +40,7 @@ public class MyUI extends UI {
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
 	public static class MyUIServlet extends VaadinServlet {
+
+		private static final long serialVersionUID = 1L;
 	}
 }

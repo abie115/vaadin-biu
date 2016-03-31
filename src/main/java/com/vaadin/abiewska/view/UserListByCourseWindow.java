@@ -12,6 +12,8 @@ import com.vaadin.ui.Window;
 
 public class UserListByCourseWindow extends Window {
 
+	private static final long serialVersionUID = 1L;
+
 	public UserListByCourseWindow(Course course) {
 		super("Lista zapisanych użytkowników");
 		center();
