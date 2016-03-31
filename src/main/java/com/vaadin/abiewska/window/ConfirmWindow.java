@@ -1,4 +1,4 @@
-package com.vaadin.abiewska.view;
+package com.vaadin.abiewska.window;
 
 import java.sql.SQLException;
 

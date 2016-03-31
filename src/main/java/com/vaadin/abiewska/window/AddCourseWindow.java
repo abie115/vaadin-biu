@@ -1,8 +1,9 @@
-package com.vaadin.abiewska.view;
+package com.vaadin.abiewska.window;
 
 import java.util.Date;
 
 import com.vaadin.abiewska.domain.Course;
+import com.vaadin.abiewska.domain.User;
 import com.vaadin.abiewska.service.CourseManager;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -15,46 +16,37 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class EditCourseWindow extends Window {
+public class AddCourseWindow extends Window {
 
 	private static final long serialVersionUID = 1L;
 
-	public void runEditCourseWindow(Course course) {
-
-	}
-
-	public EditCourseWindow(Course course, String action) {
+	public AddCourseWindow() {
 		center();
 
-		VerticalLayout content = new VerticalLayout();
-		Course editCourse = new Course();
-		BeanItem<Course> courseItem = new BeanItem<Course>(editCourse);
+		BeanItem<Course> courseItem = new BeanItem<Course>(new Course());
 
-		editCourse.setId(course.getId());
-		editCourse.setLogin(course.getLogin());
-		editCourse.setName(course.getName());
-		editCourse.setCategory(course.getCategory());
-		editCourse.setDescription(course.getDescription());
-		editCourse.setLocation(course.getLocation());
-		editCourse.setEmail(course.getEmail());
-		editCourse.setDateBegin(course.getDateBegin());
-		editCourse.setDateEnd(course.getDateEnd());
+		VerticalLayout content = new VerticalLayout();
 
 		TextField txtName = new TextField("Nazwa: ");
-		TextArea txtDecription = new TextArea("Opis: ");
+		TextField txtDecription = new TextField("Opis: ");
 		TextField txtLocation = new TextField("Lokalizacja: ");
 		TextField txtEmail = new TextField("Kontakt: ");
-		Button btnAdd = new Button("Zapisz");
+		Button btnAdd = new Button("Dodaj");
+
 		DateField dateBegin = new DateField();
 		content.addComponent(dateBegin);
 		dateBegin.setCaption("Data rozpoczęcia:");
 		dateBegin.setDateFormat("yyyy-MM-dd HH:mm");
 		dateBegin.setResolution(Resolution.MINUTE);
+		dateBegin.setRangeStart(new Date());
+		dateBegin.setDateOutOfRangeMessage("Data musi być w przyszłości");
+		dateBegin.setInvalidAllowed(false);
+		//dateBegin.setValue(new Date());
 
 		DateField dateEnd = new DateField();
 		content.addComponent(dateEnd);
@@ -64,8 +56,8 @@ public class EditCourseWindow extends Window {
 		dateEnd.setRangeStart(new Date());
 		dateEnd.setDateOutOfRangeMessage("Data musi być w przyszłości");
 		dateEnd.setInvalidAllowed(false);
-		dateEnd.setValue(new Date());
-
+		//dateEnd.setValue(new Date());
+		
 		ComboBox comboCategory = new ComboBox();
 		comboCategory.setCaption("Kategoria");
 		comboCategory.addItem("Kurs");
@@ -73,12 +65,18 @@ public class EditCourseWindow extends Window {
 		comboCategory.setNullSelectionAllowed(false);
 		comboCategory.setValue("Kurs");
 		
-		Panel panel = new Panel();
+
+		txtName.setNullRepresentation("");
+		txtDecription.setNullRepresentation("");
+		txtLocation.setNullRepresentation("");
+		txtEmail.setNullRepresentation("");
+
+		Panel panel = new Panel("Dodanie kursu");
 		panel.setSizeUndefined();
 		content.addComponent(panel);
 
 		FormLayout formLogin = new FormLayout();
-		formLogin.addStyleName("edit-form");
+		formLogin.addStyleName("add-form");
 		formLogin.addComponent(txtName);
 		formLogin.addComponent(comboCategory);
 		formLogin.addComponent(txtDecription);
@@ -86,6 +84,7 @@ public class EditCourseWindow extends Window {
 		formLogin.addComponent(txtEmail);
 		formLogin.addComponent(dateBegin);
 		formLogin.addComponent(dateEnd);
+		formLogin.addComponent(btnAdd);
 		formLogin.setMargin(true);
 		formLogin.setSpacing(true);
 		panel.setContent(formLogin);
@@ -131,26 +130,25 @@ public class EditCourseWindow extends Window {
 		dateEnd.setRequired(true);
 		dateEnd.setRequiredError("Data jest wymagana");
 
-		dateBegin.setReadOnly(true);
-		if (action.equals("SHOW")) {
-			panel.setCaption("Kurs");
-			txtName.setReadOnly(true);
-			comboCategory.setReadOnly(true);
-			txtLocation.setReadOnly(true);
-			txtDecription.setReadOnly(true);
-			txtEmail.setReadOnly(true);
-			dateEnd.setReadOnly(true);
-		} else {
-			panel.setCaption("Edycja kursu");
-			formLogin.addComponent(btnAdd);
-		}
-
 		btnAdd.addClickListener(e -> {
 			try {
+
 				binder.commit();
-				CourseManager.editCourse(editCourse);
-				EditCourseWindow.this.close();
-				Notification.show("Edycja kursu zakończona pomyślnie.",
+				User user = (User) UI.getCurrent().getSession()
+						.getAttribute("currentUser");
+				Course course = new Course();
+				course.setLogin(user.getLogin());
+				course.setName(txtName.getValue());
+				course.setCategory(comboCategory.getValue().toString());
+				course.setDescription(txtDecription.getValue());
+				course.setLocation(txtLocation.getValue());
+				course.setEmail(txtEmail.getValue());
+				course.setDateBegin(dateBegin.getValue());
+				course.setDateEnd(dateEnd.getValue());
+
+				CourseManager.createCourse(course);
+				AddCourseWindow.this.close();
+				Notification.show("Dodałeś nowy kurs.",
 						Notification.Type.HUMANIZED_MESSAGE);
 
 			} catch (CommitException ex) {
