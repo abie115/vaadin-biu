@@ -16,7 +16,6 @@ public class DBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
-			System.out.println("Polaczenie z baza.");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Blad polaczenia.");
 			e.printStackTrace();

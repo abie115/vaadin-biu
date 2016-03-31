@@ -82,8 +82,6 @@ public class EnrollCourseView extends VerticalLayout implements View {
 
 			BeanItem<Course> courseItem = enroll.getItem(e.getItemId());
 			courseSelect = courseItem.getBean();
-			System.out.println("Zaznaczone do wypisania"
-					+ e.getItem().toString());
 
 		});
 
@@ -102,8 +100,7 @@ public class EnrollCourseView extends VerticalLayout implements View {
 					Notification.show("Brak połączenia z bazą.",
 							Notification.Type.ERROR_MESSAGE);
 				}
-				System.out.println(EnrollCourseView.this.courseSelect.getId());
-
+				
 			}
 
 		});

@@ -30,8 +30,7 @@ public class EnrollmentManager {
 	}
 
 	public static boolean addEnroll(Enrollment enroll) throws SQLException {
-		System.out.println("ZAPIS user" + enroll.getLogin() + "id: "
-				+ enroll.getCourse().getId());
+	
 		if (!findCourseUser(enroll.getLogin(), enroll.getId_course())) {
 			String insert = "insert into enrollment (id, login, id_course) values ( default, ?, ? )";
 			PreparedStatement pstmt = DBConnection.con().prepareStatement(

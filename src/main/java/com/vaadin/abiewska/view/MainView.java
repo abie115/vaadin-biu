@@ -121,7 +121,6 @@ public class MainView extends VerticalLayout implements View {
 
 			BeanItem<Course> courseItem = courses.getItem(e.getItemId());
 			courseSelect = courseItem.getBean();
-			System.out.println("Zaznaczone" + e.getItem().toString());
 
 		});
 
@@ -129,7 +128,6 @@ public class MainView extends VerticalLayout implements View {
 			if (MainView.this.courseSelect == null) {
 				return;
 			} else {
-				System.out.println(MainView.this.courseSelect.getName());
 				ConfirmWindow confrimWindow = new ConfirmWindow(
 						MainView.this.courseSelect);
 				UI.getCurrent().addWindow(confrimWindow);
@@ -141,7 +139,6 @@ public class MainView extends VerticalLayout implements View {
 			AddCourseWindow addCourseWindow = new AddCourseWindow();
 			UI.getCurrent().addWindow(addCourseWindow);
 			addCourseWindow.addCloseListener(e1 -> {
-				System.out.println("odswiezamy tabeleczke");
 				List<Course> list = null;
 				list = CourseManager.getAllCourse();
 				courses.removeAllItems();

@@ -20,7 +20,6 @@ public class UserManager {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(pass.getBytes());
 			String md5 = new BigInteger(1, md.digest()).toString(16);
-			System.out.println("md5 " + md5.toString());
 			return md5.toString();
 		} catch (NoSuchAlgorithmException e2) {
 			e2.printStackTrace();
@@ -42,7 +41,6 @@ public class UserManager {
 				user = new User();
 				user.setLogin(rs.getString("login"));
 				user.setPassword(rs.getString("password"));
-				System.out.println("Poprawnie zalogowano.");
 
 				VaadinSession session = UI.getCurrent().getSession();
 				session.setAttribute("currentUser", user);

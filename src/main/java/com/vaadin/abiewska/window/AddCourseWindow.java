@@ -154,7 +154,6 @@ public class AddCourseWindow extends Window {
 			} catch (CommitException ex) {
 				Notification.show("Wprowadzono nieprawidłowe dane",
 						Notification.Type.WARNING_MESSAGE);
-				System.out.println("Nieprawidlowe dane");
 				ex.printStackTrace();
 			}
 

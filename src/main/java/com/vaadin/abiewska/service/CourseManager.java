@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.vaadin.abiewska.domain.Course;
@@ -19,7 +20,7 @@ public class CourseManager {
 	public static List<Course> getCourseByNameCategory(String name,
 			String category) {
 		try {
-			
+			Date nowDate = new Date();
 			String query = "select * from course where name like '%" + name
 					+ "%' AND category like '%" + category + "%'";
 			PreparedStatement pstmt = DBConnection.con()
@@ -32,17 +33,19 @@ public class CourseManager {
 			Course course = null;
 
 			while (rs.next()) {
-				course = new Course();
-				course.setId(rs.getInt(1));
-				course.setLogin(rs.getString(2));
-				course.setName(rs.getString(3));
-				course.setCategory(rs.getString(4));
-				course.setLocation(rs.getString(5));
-				course.setDescription(rs.getString(6));
-				course.setEmail(rs.getString(7));
-				course.setDateBegin(rs.getTimestamp(8));
-				course.setDateEnd(rs.getTimestamp(9));
-				listCourse.add(course);
+				if ((rs.getTimestamp(9)).after(nowDate)) {
+					course = new Course();
+					course.setId(rs.getInt(1));
+					course.setLogin(rs.getString(2));
+					course.setName(rs.getString(3));
+					course.setCategory(rs.getString(4));
+					course.setLocation(rs.getString(5));
+					course.setDescription(rs.getString(6));
+					course.setEmail(rs.getString(7));
+					course.setDateBegin(rs.getTimestamp(8));
+					course.setDateEnd(rs.getTimestamp(9));
+					listCourse.add(course);
+				}
 			}
 			rs.close();
 			pstmt.close();
@@ -56,6 +59,8 @@ public class CourseManager {
 
 	public static List<Course> getAllCourse() {
 		try {
+
+			Date nowDate = new Date();
 			String query = "select * from course";
 			PreparedStatement pstmt = DBConnection.con()
 					.prepareStatement(query);
@@ -67,17 +72,20 @@ public class CourseManager {
 			Course course = null;
 
 			while (rs.next()) {
-				course = new Course();
-				course.setId(rs.getInt(1));
-				course.setLogin(rs.getString(2));
-				course.setName(rs.getString(3));
-				course.setCategory(rs.getString(4));
-				course.setLocation(rs.getString(5));
-				course.setDescription(rs.getString(6));
-				course.setEmail(rs.getString(7));
-				course.setDateBegin(rs.getTimestamp(8));
-				course.setDateEnd(rs.getTimestamp(9));
-				listCourse.add(course);
+				if ((rs.getTimestamp(9)).after(nowDate)) {
+					course = new Course();
+					course.setId(rs.getInt(1));
+					course.setLogin(rs.getString(2));
+					course.setName(rs.getString(3));
+					course.setCategory(rs.getString(4));
+					course.setLocation(rs.getString(5));
+					course.setDescription(rs.getString(6));
+					course.setEmail(rs.getString(7));
+					course.setDateBegin(rs.getTimestamp(8));
+					course.setDateEnd(rs.getTimestamp(9));
+					listCourse.add(course);
+				}
+
 			}
 			rs.close();
 			pstmt.close();

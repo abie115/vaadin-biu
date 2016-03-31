@@ -118,7 +118,6 @@ public class CreateCourseView extends VerticalLayout implements View {
 		});
 
 		btnRemoveCourse.addClickListener(e -> {
-			System.out.println(CreateCourseView.this.courseSelect.getId());
 			if (CreateCourseView.this.courseSelect == null) {
 				return;
 			} else {
